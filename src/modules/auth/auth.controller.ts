@@ -1,18 +1,19 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   @Post('register')
   register(@Body() registerDto: RegisterDto) {
-    // TODO: Implement via RabbitMQ
-    return { message: 'Registration endpoint - not implemented yet' };
+    return this.authService.register(registerDto);
   }
 
   @Post('login')
   login(@Body() loginDto: LoginDto) {
-    // TODO: Implement via RabbitMQ
-    return { message: 'Login endpoint - not implemented yet' };
+    return this.authService.login(loginDto);
   }
 }
