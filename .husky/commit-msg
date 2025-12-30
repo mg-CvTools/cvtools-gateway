@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+# Validate commit message against Conventional Commits specification
+# https://www.conventionalcommits.org/en/v1.0.0/
+
+# Regex supports: type(scope)!: message OR type!: message OR type: message
+commit_regex='^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?!?: .+'
+
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "" >&2
+    echo "❌ Invalid commit message format!" >&2
+    echo "" >&2
+    echo "Your commit message must follow the Conventional Commits specification:" >&2
+    echo "  <type>[optional scope][!]: <description>" >&2
+    echo "" >&2
+    echo "Allowed types:" >&2
+    echo "  feat     - A new feature" >&2
+    echo "  fix      - A bug fix" >&2
+    echo "  docs     - Documentation only changes" >&2
+    echo "  style    - Code style changes (formatting, semicolons, etc.)" >&2
+    echo "  refactor - Code refactoring (no feature or bug fix)" >&2
+    echo "  test     - Adding or updating tests" >&2
+    echo "  chore    - Maintenance tasks" >&2
+    echo "  perf     - Performance improvement" >&2
+    echo "  ci       - CI configuration changes" >&2
+    echo "  build    - Build system or external dependencies" >&2
+    echo "  revert   - Revert a previous commit" >&2
+    echo "" >&2
+    echo "Examples:" >&2
+    echo "  feat: add user authentication" >&2
+    echo "  fix(auth): resolve login issue" >&2
+    echo "  docs: update API documentation" >&2
+    echo "  feat!: breaking change in API" >&2
+    echo "  refactor(services)!: reorganize user service" >&2
+    echo "" >&2
+    exit 1
+fi
+
+echo "✅ Commit message format is valid!"
